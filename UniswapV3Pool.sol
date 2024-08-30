@@ -100,6 +100,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     address public immutable token1;
     uint24 public immutable tickSpacing;
     uint24 public immutable fee;
+    uint160 sqrtPriceX96;
 
     uint256 public feeGrowthGlobal0X128;
     uint256 public feeGrowthGlobal1X128;
@@ -151,6 +152,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
         (factory, token0, token1, tickSpacing, fee) = IUniswapV3PoolDeployer(
             msg.sender
         ).parameters();
+      //  initialize(sqrtPriceX96);
     }
 
     function initialize(uint160 sqrtPriceX96) public {

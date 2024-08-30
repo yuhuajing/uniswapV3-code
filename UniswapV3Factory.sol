@@ -3,6 +3,8 @@ pragma solidity ^0.8.14;
 
 import "./interfaces/IUniswapV3PoolDeployer.sol";
 import "./UniswapV3Pool.sol";
+import "./lib/FixedPoint96.sol";
+import "https://raw.githubusercontent.com/PaulRBerg/prb-math/v2.5.0/contracts/PRBMath.sol";
 
 contract UniswapV3Factory is IUniswapV3PoolDeployer {
     error PoolAlreadyExists();
@@ -43,7 +45,6 @@ contract UniswapV3Factory is IUniswapV3PoolDeployer {
         if (tokenX == address(0)) revert ZeroAddressNotAllowed();
         if (pools[tokenX][tokenY][fee] != address(0))
             revert PoolAlreadyExists();
-
         parameters = PoolParameters({
             factory: address(this),
             token0: tokenX,

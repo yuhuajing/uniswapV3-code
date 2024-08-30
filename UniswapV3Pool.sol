@@ -18,11 +18,12 @@ import "./lib/Position.sol";
 import "./lib/SwapMath.sol";
 import "./lib/Tick.sol";
 import "./lib/TickBitmap.sol";
-import "./lib/TickMath.sol";
+// import "./lib/TickMath.sol";
+import "./lib/PriceTickConvert.sol";
 
 contract UniswapV3Pool is IUniswapV3Pool {
     using Oracle for Oracle.Observation[65535]; // 存储Oracle价格
-    using Position for Position.Info;  //
+    using Position for Position.Info; //
     using Position for mapping(bytes32 => Position.Info);
     using Tick for mapping(int24 => Tick.Info);
     using TickBitmap for mapping(int16 => uint256);
@@ -141,7 +142,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     Slot0 public slot0;
 
     // Amount of liquidity, L.
-    uint128 public liquidity; // 全局流动性 
+    uint128 public liquidity; // 全局流动性
 
     mapping(int24 => Tick.Info) public ticks; //全局Ticks，记录每个Tick上的流动性、Net增减、Outside_Fee
     mapping(int16 => uint256) public tickBitmap; //Find_Next_Initialized_Tick
@@ -149,10 +150,22 @@ contract UniswapV3Pool is IUniswapV3Pool {
     Oracle.Observation[65535] public observations;
 
     constructor() {
-        (factory, token0, token1, tickSpacing, fee) = IUniswapV3PoolDeployer(
-            msg.sender
-        ).parameters();
-      //  initialize(sqrtPriceX96);
+        uint256 reserve0;
+        uint256 reserve1;
+        (
+            factory,
+            token0,
+            token1,
+            tickSpacing,
+            fee,
+            reserve0,
+            reserve1
+        ) = IUniswapV3PoolDeployer(msg.sender).parameters();
+        uint160 sqrtPriceX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+            reserve0,
+            reserve1
+        );
+        initialize(sqrtPriceX96);
     }
 
     function initialize(uint160 sqrtPriceX96) public {
@@ -223,7 +236,6 @@ contract UniswapV3Pool is IUniswapV3Pool {
         if (flippedUpper) {
             tickBitmap.flipTick(params.upperTick, int24(tickSpacing));
         }
-      
 
         (uint256 feeGrowthInside0X128, uint256 feeGrowthInside1X128) = ticks
             .getFeeGrowthInside(
@@ -240,7 +252,8 @@ contract UniswapV3Pool is IUniswapV3Pool {
             feeGrowthInside1X128
         );
 
-        if (slot0_.tick < params.lowerTick) { //高价 amount0
+        if (slot0_.tick < params.lowerTick) {
+            //高价 amount0
             amount0 = ProMath.calcAmount0Delta(
                 TickMath.getSqrtRatioAtTick(params.lowerTick),
                 TickMath.getSqrtRatioAtTick(params.upperTick),
@@ -437,11 +450,12 @@ contract UniswapV3Pool is IUniswapV3Pool {
 
             step.sqrtPriceStartX96 = state.sqrtPriceX96;
 
-            (step.nextTick, step.initialized) = tickBitmap.nextInitializedTickWithinOneWord(
-                state.tick,
-                int24(tickSpacing),
-                zeroForOne
-            );
+            (step.nextTick, step.initialized) = tickBitmap
+                .nextInitializedTickWithinOneWord(
+                    state.tick,
+                    int24(tickSpacing),
+                    zeroForOne
+                );
 
             step.sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(step.nextTick);
 
@@ -476,7 +490,8 @@ contract UniswapV3Pool is IUniswapV3Pool {
             }
 
             if (state.sqrtPriceX96 == step.sqrtPriceNextX96) {
-                if (step.initialized) {// crossTick
+                if (step.initialized) {
+                    // crossTick
                     int128 liquidityDelta = ticks.cross(
                         step.nextTick,
                         (

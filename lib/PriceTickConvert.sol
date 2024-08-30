@@ -7,16 +7,27 @@ import "./TickMath.sol";
 
 library PriceTickConvert {
     // Computes the sqrt of the u64x96 fixed point price given the AMM reserves
-    function encodePriceSqrt(uint256 reserve1, uint256 reserve0)
-        public
+    function encodePriceSqrtFromAmount(uint256 reserve0, uint256 reserve1)
+        internal
         pure
         returns (uint160)
     {
         return uint160(sqrt((reserve1 * PRECISION * PRECISION) / reserve0));
     }
 
+    function tickFromPrice(uint256 reserve0, uint256 reserve1)
+        internal
+        pure
+        returns (int24)
+    {
+        uint160 sqrtp = uint160(
+            sqrt((reserve1 * PRECISION * PRECISION) / reserve0)
+        );
+        return getTickFromSqrtPrice(sqrtp);
+    }
+
     // Fast sqrt, taken from Solmate.
-    function sqrt(uint256 x) public pure returns (uint256 z) {
+    function sqrt(uint256 x) internal pure returns (uint256 z) {
         assembly {
             // Start off with z at 1.
             z := 1
@@ -74,7 +85,7 @@ library PriceTickConvert {
     }
 
     function getTickFromSqrtPrice(uint160 sqrtPriceX96)
-        public
+        internal
         pure
         returns (int24 tick)
     {

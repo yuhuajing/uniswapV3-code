@@ -1,0 +1,124 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "int24",
+						"name": "tick",
+						"type": "int24"
+					}
+				],
+				"name": "position",
+				"outputs": [
+					{
+						"internalType": "int16",
+						"name": "wordPos",
+						"type": "int16"
+					},
+					{
+						"internalType": "uint8",
+						"name": "bitPos",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "The mapping uses int16 for keys since ticks are represented as int24 and there are 256 (2^8) values per word.",
+			"kind": "dev",
+			"methods": {
+				"flipTick(mapping(int16 => uint256) storage,int24,int24)": {
+					"params": {
+						"self": "The mapping in which to flip the tick",
+						"tick": "The tick to flip",
+						"tickSpacing": "The spacing between usable ticks"
+					}
+				},
+				"nextInitializedTickWithinOneWord(mapping(int16 => uint256) storage,int24,int24,bool)": {
+					"params": {
+						"lte": "Whether to search for the next initialized tick to the left (less than or equal to the starting tick)",
+						"self": "The mapping in which to compute the next initialized tick",
+						"tick": "The starting tick",
+						"tickSpacing": "The spacing between usable ticks"
+					},
+					"returns": {
+						"initialized": "Whether the next tick is initialized, as the function only searches within up to 256 ticks",
+						"next": "The next initialized or uninitialized tick up to 256 ticks away from the current tick"
+					}
+				},
+				"position(int24)": {
+					"params": {
+						"tick": "The tick for which to compute the position"
+					},
+					"returns": {
+						"bitPos": "The bit position in the word where the flag is stored",
+						"wordPos": "The key in the mapping containing the word in which the bit is stored"
+					}
+				}
+			},
+			"title": "Packed tick initialized state library",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"flipTick(mapping(int16 => uint256) storage,int24,int24)": {
+					"notice": "Flips the initialized state for a given tick from false to true, or vice versa"
+				},
+				"nextInitializedTickWithinOneWord(mapping(int16 => uint256) storage,int24,int24,bool)": {
+					"notice": "Returns the next initialized tick contained in the same word (or adjacent word) as the tick that is either to the left (less than or equal to) or right (greater than) of the given tick"
+				},
+				"position(int24)": {
+					"notice": "Computes the position in the mapping where the initialized bit for a tick lives"
+				}
+			},
+			"notice": "Stores a packed mapping of tick index to its initialized state",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/lib/TickBitmap.sol": "TickBitmap"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": [
+			":ds-test/=lib/forge-std/lib/ds-test/src/\r",
+			":forge-std/=lib/forge-std/src/\r",
+			":prb-math/=lib/prb-math/contracts/"
+		]
+	},
+	"sources": {
+		"src/lib/BitMath.sol": {
+			"keccak256": "0x3494469e9159272b661e57c5a15a0513e99ae9e9cf0ecfc6d3a4fa6002874482",
+			"license": "GPL-2.0-or-later",
+			"urls": [
+				"bzz-raw://ea3355f73915fb48a597944581ee6ff4736c04e7a3ec26b20001bfecd0178c7d",
+				"dweb:/ipfs/QmVkpV8dsWGuJLFv1GSCNsNBmVJ9DqscW8p2VkZe7suQQV"
+			]
+		},
+		"src/lib/TickBitmap.sol": {
+			"keccak256": "0x038a4877a22147210d7e95a4a81fa37dffcc1b8149ddb1a90fd735eb448825eb",
+			"license": "BUSL-1.1",
+			"urls": [
+				"bzz-raw://8ab4561a43b0f13d8a7bb8ed7e72bd19443da263f82eb2aca60036cac1554cb3",
+				"dweb:/ipfs/QmaYzebsMUv5X75Tqp4MHNoktPH17ZGq7QJXSJJsn1k3sE"
+			]
+		}
+	},
+	"version": 1
+}

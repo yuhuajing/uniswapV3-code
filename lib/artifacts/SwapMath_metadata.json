@@ -1,0 +1,76 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/lib/SwapMath.sol": "SwapMath"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": [
+			":abdk-math/=lib/abdk-libraries-solidity/\r",
+			":bytes-utils/=lib/solidity-bytes-utils/contracts/\r",
+			":ds-test/=lib/forge-std/lib/ds-test/src/\r",
+			":forge-std/=lib/forge-std/src/\r",
+			":openzeppelin/=lib/openzeppelin-contracts/contracts/",
+			":prb-math/=lib/prb-math/contracts/\r"
+		]
+	},
+	"sources": {
+		"https://raw.githubusercontent.com/PaulRBerg/prb-math/v2.5.0/contracts/PRBMath.sol": {
+			"keccak256": "0xed164c95012964f5e125b5d2b2d00471a4bdee4def618cd1fcf341d196011b61",
+			"license": "Unlicense",
+			"urls": [
+				"bzz-raw://3ba3ad78675323279adfc09038eaa14f4cde3f3173e5d2d60b9c30bf7099aa7b",
+				"dweb:/ipfs/QmV56KGJZQG681hwd7JQDv3KjAa9JSGF88ShGx8YBCuvcR"
+			]
+		},
+		"src/lib/FixedPoint96.sol": {
+			"keccak256": "0x9f249b890f1a47e28cbb02df5967337dd39ac7284e3fcbe53ee91245070eedbc",
+			"license": "GPL-2.0-or-later",
+			"urls": [
+				"bzz-raw://4fdb1f47740430cc2bfa0c8e5a44c239fffea5fb8eaa9fd9ca2ff5c52dd6c769",
+				"dweb:/ipfs/QmTYwvo9aSXQLmaiLBhde312dpahTTAzVRzwJdeFY7nAuF"
+			]
+		},
+		"src/lib/Math.sol": {
+			"keccak256": "0xb7f864afcda4cb71e96024118cb6e11e3d41b5e3e313aa64fe3672c05cd83075",
+			"license": "BUSL-1.1",
+			"urls": [
+				"bzz-raw://3eea06568f4d6478ee3ac9e1a6d46ed5b6008408fd144723e4d6b2f580d09c91",
+				"dweb:/ipfs/QmZynq61w4ryTJYpgKnctGVBi6pVJLJBCFmnGBjcMYiry7"
+			]
+		},
+		"src/lib/SwapMath.sol": {
+			"keccak256": "0x5fefc6562c968f6ccd1449f1ce7d886f0d90ed6f379021ed32dcdb72fb57716c",
+			"license": "BUSL-1.1",
+			"urls": [
+				"bzz-raw://47a527e250bfe4a4f02e406e992955848cc7d7a7c693a790971bd30cd1b68456",
+				"dweb:/ipfs/QmVG53QAzoATxbGET7CescbfhUBPjeFn2CJN4EtrXRhcoL"
+			]
+		}
+	},
+	"version": 1
+}

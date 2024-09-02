@@ -8,8 +8,8 @@ interface IUniswapV3PoolDeployer {
         address token1;
         uint24 tickSpacing;
         uint24 fee;
-        uint256 reserve1;
         uint256 reserve0;
+        uint256 reserve1;
     }
 
     function parameters()
@@ -20,7 +20,7 @@ interface IUniswapV3PoolDeployer {
             address token1,
             uint24 tickSpacing,
             uint24 fee,
-            uint256 reserve1,
-            uint256 reserve0
+            uint256 reserve0,
+            uint256 reserve1
         );
 }

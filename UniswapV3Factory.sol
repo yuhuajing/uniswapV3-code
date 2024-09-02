@@ -54,7 +54,7 @@ contract UniswapV3Factory is IUniswapV3PoolDeployer {
             tickSpacing: fees[fee],
             fee: fee,
             reserve0: reserve0,
-             reserve1: reserve1
+            reserve1: reserve1
         });
 
         pool = address(

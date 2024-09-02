@@ -9,7 +9,10 @@ contract Test {
         pure
         returns (uint160 sqrtPriceX96)
     {
-        sqrtPriceX96 = PriceTickConvert.encodePriceSqrtFromAmount(reserve0,reserve1);
+        sqrtPriceX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+            reserve0,
+            reserve1
+        );
     }
 
     function getTickFromSqrtPrice(uint160 sqrtPriceX96)
@@ -20,12 +23,37 @@ contract Test {
         return PriceTickConvert.getTickFromSqrtPrice(sqrtPriceX96);
     }
 
-        function getTickFromPrice(uint256 reserve0, uint256 reserve1)
+    function getTickFromPrice(uint256 reserve0, uint256 reserve1)
         public
         pure
         returns (int24 tick)
     {
         //uint160 sp =  PriceTickConvert.encodePriceSqrtFromAmount(reserve1,reserve0);
-        return PriceTickConvert.tickFromPrice(reserve0,reserve1);
+        return PriceTickConvert.tickFromPrice(reserve0, reserve1);
+    }
+
+    function tokenInAmoutFromPrice(
+        int24 curTick,
+        int24 lowerTick,
+        int24 upperTick,
+        uint256 amount0InDesried,
+        uint256 amount1InDesried
+    )
+        public
+        pure
+        returns (
+            uint128 liquidity,
+            int256 amount0In,
+            int256 amount1In
+        )
+    {
+        return
+            PriceTickConvert.tokenInAmoutFromPrice(
+                curTick,
+                lowerTick,
+                upperTick,
+                amount0InDesried,
+                amount1InDesried
+            );
     }
 }

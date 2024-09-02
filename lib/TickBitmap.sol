@@ -28,9 +28,9 @@ library TickBitmap {
         mapping(int16 => uint256) storage self,
         int24 tick,
         int24 tickSpacing
-    ) internal {
+    ) internal  {
         require(tick % tickSpacing == 0); // ensure that the tick is spaced
-        (int16 wordPos, uint8 bitPos) = position(tick / tickSpacing);
+        ( int16 wordPos, uint8 bitPos) = position(tick / tickSpacing);
         uint256 mask = 1 << bitPos;
         self[wordPos] ^= mask;
     }

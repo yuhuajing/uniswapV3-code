@@ -101,7 +101,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     address public immutable token1;
     uint24 public immutable tickSpacing;
     uint24 public immutable fee;
-    uint160 sqrtPriceX96;
+    // uint160 sqrtPriceX96;
 
     uint256 public feeGrowthGlobal0X128;
     uint256 public feeGrowthGlobal1X128;
@@ -165,10 +165,10 @@ contract UniswapV3Pool is IUniswapV3Pool {
             reserve0,
             reserve1
         );
-        initialize(sqrtPriceX96);
+       initialize(sqrtPriceX96);
     }
 
-    function initialize(uint160 sqrtPriceX96) public {
+    function initialize(uint160 sqrtPriceX96) internal {
         if (slot0.sqrtPriceX96 != 0) revert AlreadyInitialized();
 
         int24 tick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
@@ -286,7 +286,7 @@ contract UniswapV3Pool is IUniswapV3Pool {
     }
 
     function mint(
-        address owner,
+        address owner, //msg.sender EOA
         int24 lowerTick,
         int24 upperTick,
         uint128 amount,
@@ -318,17 +318,17 @@ contract UniswapV3Pool is IUniswapV3Pool {
         if (amount0 > 0) balance0Before = balance0();
         if (amount1 > 0) balance1Before = balance1();
 
-        IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
-            amount0,
-            amount1,
-            data
-        );
+        // IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
+        //     amount0,
+        //     amount1,
+        //     data
+        // );
 
-        if (amount0 > 0 && balance0Before + amount0 > balance0())
-            revert InsufficientInputAmount();
+        // if (amount0 > 0 && balance0Before + amount0 > balance0())
+        //     revert InsufficientInputAmount();
 
-        if (amount1 > 0 && balance1Before + amount1 > balance1())
-            revert InsufficientInputAmount();
+        // if (amount1 > 0 && balance1Before + amount1 > balance1())
+        //     revert InsufficientInputAmount();
 
         emit Mint(
             msg.sender,

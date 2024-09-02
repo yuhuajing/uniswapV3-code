@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"src/lib/Math.sol": "ProMath"
+			"lib/Math.sol": "ProMath"
 		},
 		"evmVersion": "paris",
 		"libraries": {},
@@ -29,14 +29,7 @@
 			"enabled": true,
 			"runs": 200
 		},
-		"remappings": [
-			":abdk-math/=lib/abdk-libraries-solidity/\r",
-			":bytes-utils/=lib/solidity-bytes-utils/contracts/\r",
-			":ds-test/=lib/forge-std/lib/ds-test/src/\r",
-			":forge-std/=lib/forge-std/src/\r",
-			":openzeppelin/=lib/openzeppelin-contracts/contracts/",
-			":prb-math/=lib/prb-math/contracts/\r"
-		]
+		"remappings": []
 	},
 	"sources": {
 		"https://raw.githubusercontent.com/PaulRBerg/prb-math/v2.5.0/contracts/PRBMath.sol": {
@@ -47,7 +40,7 @@
 				"dweb:/ipfs/QmV56KGJZQG681hwd7JQDv3KjAa9JSGF88ShGx8YBCuvcR"
 			]
 		},
-		"src/lib/FixedPoint96.sol": {
+		"lib/FixedPoint96.sol": {
 			"keccak256": "0x9f249b890f1a47e28cbb02df5967337dd39ac7284e3fcbe53ee91245070eedbc",
 			"license": "GPL-2.0-or-later",
 			"urls": [
@@ -55,7 +48,7 @@
 				"dweb:/ipfs/QmTYwvo9aSXQLmaiLBhde312dpahTTAzVRzwJdeFY7nAuF"
 			]
 		},
-		"src/lib/Math.sol": {
+		"lib/Math.sol": {
 			"keccak256": "0xb7f864afcda4cb71e96024118cb6e11e3d41b5e3e313aa64fe3672c05cd83075",
 			"license": "BUSL-1.1",
 			"urls": [

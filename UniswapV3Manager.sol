@@ -8,6 +8,7 @@ import "./lib/LiquidityMath.sol";
 import "./lib/Path.sol";
 import "./lib/PoolAddress.sol";
 import "./lib/TickMath.sol";
+import "./lib/PriceTickConvert.sol";
 
 contract UniswapV3Manager is IUniswapV3Manager {
     using Path for bytes;
@@ -53,19 +54,31 @@ contract UniswapV3Manager is IUniswapV3Manager {
 
     function mint(MintParams calldata params)
         public
-        returns (uint256 amount0, uint256 amount1)
+        returns (
+            uint256 amount0,
+            uint256 amount1,
+            uint128 liquidity,
+            int24 lowerTick,
+            int24 upperTick,
+            IUniswapV3Pool pool
+        )
     {
-        IUniswapV3Pool pool = getPool(params.tokenA, params.tokenB, params.fee);
+        pool = getPool(params.tokenA, params.tokenB, params.fee);
 
         (uint160 sqrtPriceX96, , , , ) = pool.slot0();
-        uint160 sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(
-            params.lowerTick
+        //  uint160 sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(
+        //     params.lowerTick
+        // );
+        uint160 sqrtPriceLowerX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+            params.reserve0,
+            params.lowerReserve1
         );
-        uint160 sqrtPriceUpperX96 = TickMath.getSqrtRatioAtTick(
-            params.upperTick
+        uint160 sqrtPriceUpperX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+            params.reserve0,
+            params.upperReserve1
         );
 
-        uint128 liquidity = LiquidityMath.getLiquidityForAmounts(
+        liquidity = LiquidityMath.getLiquidityForAmounts(
             sqrtPriceX96,
             sqrtPriceLowerX96,
             sqrtPriceUpperX96,
@@ -73,10 +86,13 @@ contract UniswapV3Manager is IUniswapV3Manager {
             params.amount1Desired
         );
 
+        lowerTick = PriceTickConvert.getTickFromSqrtPrice(sqrtPriceLowerX96);
+        upperTick = PriceTickConvert.getTickFromSqrtPrice(sqrtPriceUpperX96);
+
         (amount0, amount1) = pool.mint(
             msg.sender,
-            params.lowerTick,
-            params.upperTick,
+            lowerTick,
+            upperTick,
             liquidity,
             abi.encode(
                 IUniswapV3Pool.CallbackData({

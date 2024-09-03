@@ -10,14 +10,16 @@ interface IUniswapV3Manager {
         int24 lowerTick;
         int24 upperTick;
     }
-// ["0x4a9C121080f6D9250Fc0143f41B595fD172E31bf","0x540d7E428D5207B30EE03F2551Cbb5751D3c7569",500,1000000000000000000,1800000000,2200000000,1000000000000000000,2000000000,0,0]
+// ["0x6160D0Ca6ad8AA9Cc68d143D01591d8050b7dD9f","0xf02A102153DDf132032B7De5D19F43aA049052Dd",500,-201360,-199360,1000000000000000000,2000000000,0,0]
     struct MintParams {
         address tokenA;
         address tokenB;
         uint24 fee;
-        uint256 reserve0;
-        uint256 lowerReserve1;
-        uint256 upperReserve1;
+        // uint256 reserve0;
+        // uint256 lowerReserve1;
+        // uint256 upperReserve1;
+        int24 tickLower;
+        int24 tickUpper;
         uint256 amount0Desired;
         uint256 amount1Desired;
         uint256 amount0Min;

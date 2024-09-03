@@ -48,7 +48,7 @@ contract Test {
         )
     {
         return
-            PriceTickConvert.tokenInAmoutFromPrice(
+            PriceTickConvert.tokenInAmoutFromTick(
                 curTick,
                 lowerTick,
                 upperTick,

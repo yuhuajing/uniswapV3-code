@@ -66,17 +66,20 @@ contract UniswapV3Manager is IUniswapV3Manager {
         pool = getPool(params.tokenA, params.tokenB, params.fee);
 
         (uint160 sqrtPriceX96, , , , ) = pool.slot0();
-        //  uint160 sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(
-        //     params.lowerTick
+         uint160 sqrtPriceLowerX96 = TickMath.getSqrtRatioAtTick(
+            params.tickLower
+        );
+         uint160 sqrtPriceUpperX96 = TickMath.getSqrtRatioAtTick(
+            params.tickUpper
+        );
+        // uint160 sqrtPriceLowerX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+        //     params.reserve0,
+        //     params.lowerReserve1
         // );
-        uint160 sqrtPriceLowerX96 = PriceTickConvert.encodePriceSqrtFromAmount(
-            params.reserve0,
-            params.lowerReserve1
-        );
-        uint160 sqrtPriceUpperX96 = PriceTickConvert.encodePriceSqrtFromAmount(
-            params.reserve0,
-            params.upperReserve1
-        );
+        // uint160 sqrtPriceUpperX96 = PriceTickConvert.encodePriceSqrtFromAmount(
+        //     params.reserve0,
+        //     params.upperReserve1
+        // );
 
         liquidity = LiquidityMath.getLiquidityForAmounts(
             sqrtPriceX96,
@@ -86,13 +89,11 @@ contract UniswapV3Manager is IUniswapV3Manager {
             params.amount1Desired
         );
 
-        lowerTick = PriceTickConvert.getTickFromSqrtPrice(sqrtPriceLowerX96);
-        upperTick = PriceTickConvert.getTickFromSqrtPrice(sqrtPriceUpperX96);
 
         (amount0, amount1) = pool.mint(
             msg.sender,
-            lowerTick,
-            upperTick,
+            params.tickLower,
+            params.tickUpper,
             liquidity,
             abi.encode(
                 IUniswapV3Pool.CallbackData({

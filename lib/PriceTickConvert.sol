@@ -44,7 +44,7 @@ library PriceTickConvert {
         return TickMath.getSqrtRatioAtTick(tick);
     }
 
-    function tokenInAmoutFromPrice(
+    function tokenInAmoutFromTick(
         // uint256 Reserve0,
         // uint256 targetReserve1,
         // uint256 lowerReserve1,
